@@ -1,1281 +1,1124 @@
-```html
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MedLync – Elevating Healthcare</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MedLync — Provider–Practitioner Collaboration</title>
+  <meta name="description" content="MedLync connects healthcare providers and practitioners to collaborate, staff care safely, and elevate patient outcomes." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* Light (default) */
-      --bg0:#f7fbff;
-      --bg1:#eef6ff;
-      --bg2:#f2fbf6;
-      --card: rgba(255,255,255,.72);
-      --card2: rgba(255,255,255,.58);
-      --text:#0f172a;
-      --muted:#475569;
-      --muted2:#64748b;
-      --border: rgba(148,163,184,.35);
-      --shadow: 0 18px 50px rgba(2,6,23,.10);
-      --shadow2: 0 10px 26px rgba(2,6,23,.08);
+      /* Refined Palette - More depth, less flat */
+      --bg0: #f8fafc;
+      --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
+      
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      
+      --primary: #0284c7; /* Vibrant Blue */
+      --primary-dark: #0369a1;
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      --amber: #f59e0b;
+      --amber-light: #fef3c7;
+      
+      /* Glassmorphism Variables */
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+      --blur: blur(16px);
 
-      /* Healthcare-tech accents */
-      --a1:#2563eb; /* blue */
-      --a2:#06b6d4; /* cyan */
-      --a3:#22c55e; /* green */
-      --a4:#7c3aed; /* violet */
-      --ring: rgba(37,99,235,.28);
-
-      --radius: 22px;
-      --radius2: 16px;
-    }
-
-    /* Dark theme */
-    [data-theme="dark"]{
-      --bg0:#071027;
-      --bg1:#071a2b;
-      --bg2:#081f1b;
-      --card: rgba(15,23,42,.62);
-      --card2: rgba(15,23,42,.48);
-      --text:#e5e7eb;
-      --muted:#b6c2d1;
-      --muted2:#93a4b8;
-      --border: rgba(148,163,184,.22);
-      --shadow: 0 18px 55px rgba(0,0,0,.45);
-      --shadow2: 0 10px 28px rgba(0,0,0,.34);
-      --ring: rgba(34,211,238,.22);
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+      
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1120px;
+      
+      /* Fonts */
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     *{box-sizing:border-box}
-    html, body{height:100%}
+    html { scroll-behavior: smooth; }
+    
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1000px 700px at 12% 8%, rgba(6,182,212,.20), transparent 60%),
-        radial-gradient(950px 650px at 92% 18%, rgba(34,197,94,.18), transparent 55%),
-        radial-gradient(900px 650px at 55% 95%, rgba(37,99,235,.18), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg0) 55%, #ffffff00),
-        linear-gradient(180deg, var(--bg0), var(--bg0));
+      font-family: var(--font-body);
+      color: var(--text-main);
+      background: var(--bg0);
       overflow-x:hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Subtle tech grid */
-    .bg-grid{
-      position:fixed;
-      inset:0;
+    /* Ambient Background Glows */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
       pointer-events:none;
-      opacity:.55;
-      background-image:
-        linear-gradient(to right, rgba(148,163,184,.10) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(148,163,184,.10) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(circle at 50% 30%, rgba(0,0,0,.95), transparent 70%);
-    }
-    [data-theme="dark"] .bg-grid{
-      opacity:.35;
-      background-image:
-        linear-gradient(to right, rgba(226,232,240,.08) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(226,232,240,.08) 1px, transparent 1px);
+      z-index: -2;
+      background:
+        radial-gradient(800px 800px at 10% 0%, rgba(14, 165, 233, 0.08), transparent 60%),
+        radial-gradient(800px 800px at 90% 10%, rgba(13, 148, 136, 0.08), transparent 60%);
     }
 
-    .wrap{
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 18px 18px 70px;
-      position:relative;
+    /* Subtle Grid Pattern */
+    body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: -1;
+      opacity: 0.6;
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
     }
 
-    /* Top nav */
+    h1, h2, h3, .btn, .nav a { font-family: var(--font-heading); }
+    p { line-height: 1.6; color: var(--text-muted); }
+    a{color:inherit; text-decoration: none;}
+
+    .container{max-width:var(--max); margin:0 auto; padding:0 24px;}
+
+    /* ---------- Navigation ---------- */
     .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      padding: 14px 0;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(255,255,255,.65), rgba(255,255,255,.25));
-      border-bottom: 1px solid rgba(148,163,184,.22);
+      position:sticky; top:10px; z-index:100;
+      margin: 0 16px;
     }
-    [data-theme="dark"] .topbar{
-      background: linear-gradient(180deg, rgba(2,6,23,.58), rgba(2,6,23,.22));
-      border-bottom: 1px solid rgba(148,163,184,.18);
-    }
-
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      max-width: 1120px;
-      margin:0 auto;
-      padding: 0 18px;
+    
+    /* Floating Glass Nav */
+    .topbar-inner{
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 99px;
+      padding: 10px 24px;
+      box-shadow: var(--shadow-sm);
+      
+      display:flex; align-items:center; justify-content:space-between;
+      gap:20px;
+      max-width: var(--max);
+      margin: 0 auto;
     }
 
     .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width: 240px;
-    }
-    .logo{
-      width:44px;height:44px;border-radius:14px;
-      background: linear-gradient(135deg, var(--a1), var(--a2));
-      box-shadow: 0 14px 30px rgba(37,99,235,.25);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo::after{
-      content:"";
-      position:absolute; inset:-30px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 55%);
-      transform: rotate(12deg);
-    }
-    .brand strong{display:block; font-size: 15px; letter-spacing:.2px}
-    .brand span{display:block; font-size: 12px; color:var(--muted2)}
-
-    .navlinks{
-      display:none;
-      gap:14px;
-      align-items:center;
-      justify-content:center;
-      flex:1;
-    }
-    .navlinks a{
-      color: var(--muted);
-      font-size: 13px;
-      padding: 10px 10px;
-      border-radius: 12px;
-    }
-    .navlinks a:hover{
-      background: rgba(148,163,184,.12);
-      color: var(--text);
+      display:flex; align-items:center; gap:12px;
       text-decoration:none;
     }
+    .logo {
+      width: 36px; height: 36px;
+      background-image: url('images/medlync-logo.jpg');
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+    }
+    .brand h1{
+      margin:0; font-size:16px; font-weight: 700;
+      line-height:1.1; color: var(--text-main);
+    }
+    .brand small{display:block; color:var(--text-muted); font-size: 11px; font-weight:500; margin-top:2px; text-transform: uppercase; letter-spacing: 0.5px;}
 
-    @media (min-width: 900px){
-      .navlinks{display:flex;}
+    .nav{
+      display:flex; align-items:center; gap:8px;
     }
+    .nav a{
+      font-size:14px;
+      font-weight: 600;
+      color:var(--text-muted);
+      padding:8px 16px;
+      border-radius:99px;
+      transition: all .2s ease;
+    }
+    .nav a:hover{background: rgba(14, 165, 233, 0.08); color: var(--primary);}
 
-    .controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:flex-end;
-      min-width: 240px;
+    .actions{
+      display:flex; align-items:center; gap:12px;
     }
-
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 26px rgba(2,6,23,.06);
-      color: var(--muted);
-      font-size: 12px;
-      user-select:none;
-    }
-    [data-theme="dark"] .chip{
-      background: rgba(2,6,23,.35);
-      box-shadow: 0 10px 26px rgba(0,0,0,.25);
-    }
-
-    .toggle{
-      width: 58px;
-      height: 32px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(148,163,184,.22);
-      position:relative;
-      cursor:pointer;
-      transition: .2s ease;
-      flex: 0 0 auto;
-      outline:none;
-    }
-    .toggle:focus{ box-shadow: 0 0 0 4px var(--ring); }
-    .toggle .knob{
-      position:absolute; top:3px; left:3px;
-      width:26px; height:26px;
-      border-radius:999px;
-      background: rgba(255,255,255,.95);
-      box-shadow: 0 10px 22px rgba(2,6,23,.18);
-      transition: .2s ease;
-    }
-    [data-theme="dark"] .toggle .knob{
-      background: rgba(226,232,240,.95);
-      box-shadow: 0 10px 22px rgba(0,0,0,.38);
-    }
-    .toggle.on{
-      background: rgba(37,99,235,.20);
-      border-color: rgba(37,99,235,.35);
-    }
-    .toggle.on .knob{ transform: translateX(26px); }
-
+    
+    /* Buttons */
     .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 11px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.70);
-      color: var(--text);
-      font-weight: 650;
-      font-size: 13px;
-      box-shadow: var(--shadow2);
-      text-decoration:none;
+      border:none;
+      padding:10px 20px;
+      border-radius:99px;
+      cursor:pointer;
+      transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight:700;
+      font-size: 14px;
+      display: inline-flex; align-items: center; justify-content: center;
     }
-    [data-theme="dark"] .btn{
-      background: rgba(2,6,23,.40);
+    .btn:hover{transform: translateY(-2px);}
+    
+    .btn.primary{
+      background: linear-gradient(135deg, var(--primary) 0%, var(--teal) 100%);
+      color:white;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
     }
-    .btnPrimary{
-      background: linear-gradient(135deg, var(--a1), var(--a2));
-      border-color: rgba(37,99,235,.35);
-      color: #fff;
-      box-shadow: 0 18px 40px rgba(37,99,235,.25);
+    .btn.primary:hover{
+      box-shadow: 0 8px 16px rgba(2, 132, 199, 0.35);
+      filter: brightness(1.05);
     }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0px); }
-
-    /* Hero */
-    .hero{
-      margin-top: 18px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-      padding: 26px;
-      position:relative;
-      overflow:hidden;
+    
+    .btn.ghost{
+      background: transparent;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border: 1px solid transparent;
     }
-
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:-160px -260px auto auto;
-      width: 620px;
-      height: 620px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(6,182,212,.38), transparent 55%),
-        radial-gradient(circle at 65% 70%, rgba(34,197,94,.28), transparent 60%),
-        radial-gradient(circle at 80% 40%, rgba(124,58,237,.18), transparent 55%);
-      filter: blur(10px);
-      transform: rotate(10deg);
-      opacity:.9;
-      pointer-events:none;
-      animation: floaty 18s ease-in-out infinite;
+    .btn.ghost:hover{
+      background: rgba(0,0,0,0.03);
+      color: var(--text-main);
     }
-
-    @keyframes floaty{
-      0%{ transform: translateY(0) rotate(10deg); }
-      50%{ transform: translateY(-14px) rotate(10deg); }
-      100%{ transform: translateY(0) rotate(10deg); }
+    
+    /* Lang Switcher */
+    .pill{
+      background: #f1f5f9;
+      padding:4px;
+      border-radius:99px;
+      display:flex; align-items:center;
     }
-
-    .hero-top{
-      
-  display: flex;
-  flex-direction: column;
-  align-items: center;      /* Centers horizontally */
-  justify-content: center;   /* Centers vertically if you give it height */
-  text-align: center;        /* Centers the text and inline-block elements */
-  min-height: 80vh;          /* Gives it space on the page */
-  padding: 2rem;
-
+    .pill span{
+      font-size:11px; font-weight: 700; color:#94a3b8; padding: 0 8px;
     }
-
-    .hero-content {
-  max-width: 800px;          /* Prevents text from stretching too wide */
-  width: 100%;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      color: var(--muted);
+    .toggle{ display:flex; gap: 2px; }
+    .toggle .btn.ghost {
+      padding: 4px 10px;
       font-size: 12px;
-      margin-bottom: 1.5rem;
+      border-radius: 99px;
     }
-    [data-theme="dark"] .badge{ background: rgba(2,6,23,.35); }
-
-    h1{
-      margin: 12px 0 8px;
-      font-size: clamp(30px, 4.4vw, 52px);
-      line-height: 1.08;
-      letter-spacing: -0.9px;
-    }
-    .lead{
-      margin: 0;
-      color: var(--muted);
-      max-width: 78ch;
-      font-size: 15.5px;
+    .toggle .btn[aria-pressed="true"] {
+      background: white;
+      color: var(--text-main);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    .hero-actions{
-      display:flex;
-      justify-content: center;
-      gap:25px;
-      flex-wrap:wrap;
-      margin-top: 16px;
-      margin-bottom: 16px;
+    /* ---------- Hero Section ---------- */
+    .hero-video{
+      position: relative;
+      height: 120vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      margin-top: +15px; /* Pull behind transparent nav */
+      overflow: hidden;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
     }
 
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 18px;
-    }
-    @media(min-width: 900px){
-      .hero-grid{ grid-template-columns: 1.1fr .9fr; }
+    .hero-video-bg{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    /* Metrics */
-    .metrics{
-      display:grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap:12px;
-    }
-    @media(min-width: 700px){
-      .metrics{ grid-template-columns: repeat(4, 1fr); }
+    .hero-video-overlay{
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(15, 23, 42, 0.9) 0%,
+        rgba(15, 23, 42, 0.7) 40%,
+        rgba(15, 23, 42, 0.2) 100%
+      );
+      z-index: 1;
     }
 
-    .metric{
-      border-radius: var(--radius2);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.52);
-      padding: 14px;
+    .hero-video-content{
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      color: white;
+      padding-top: 60px;
     }
-    [data-theme="dark"] .metric{ background: rgba(2,6,23,.30); }
-    .metric .k{
-      font-size: 12px;
-      color: var(--muted2);
-      margin-bottom: 8px;
-    }
-    .metric .v{
-      font-size: 22px;
+
+    .hero-video h1{
+      font-size: clamp(42px, 5vw, 68px);
       font-weight: 800;
-      letter-spacing: -0.4px;
-    }
-    .metric .s{
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
 
-    /* Section layout */
-    .section{
-      margin-top: 18px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow2);
-      padding: 22px;
-    }
-
-    .section h2{
-      margin:0 0 8px;
+    .hero-video p{
       font-size: 20px;
-      letter-spacing: -0.2px;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      max-width: 600px;
+      font-weight: 400;
     }
-    .section p{ margin:0; color: var(--muted); }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-top: 14px;
+    /* ---------- Sections General ---------- */
+    section{padding: 100px 0;}
+
+    .section-title{
+      margin-bottom: 48px;
     }
-    @media(min-width: 900px){
-      .grid{ grid-template-columns: repeat(12, 1fr); }
-      .col4{ grid-column: span 4; }
-      .col6{ grid-column: span 6; }
-      .col8{ grid-column: span 8; }
-      .col12{ grid-column: span 12; }
+    .section-title h2{
+      font-size: 32px;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .section-title p{
+      font-size: 18px;
+      max-width: 65ch;
+    }
+
+    /* ---------- Cards & Grid ---------- */
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
     }
 
     .card{
-      border-radius: var(--radius2);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.52);
-      padding: 16px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: all 0.3s ease;
       position:relative;
       overflow:hidden;
+      box-shadow: var(--shadow-sm);
     }
-    [data-theme="dark"] .card{ background: rgba(2,6,23,.30); }
+    
     .card:hover{
-      transform: translateY(-1px);
-      transition: .18s ease;
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(2, 132, 199, 0.2);
     }
-    .card h3{ margin: 8px 0 6px; font-size: 15px; letter-spacing:-0.2px; }
-    .card p{ margin:0; font-size: 13px; color: var(--muted); }
 
-    .icon{
-      width: 36px;
-      height: 36px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      display:grid;
-      place-items:center;
-      background: rgba(255,255,255,.60);
+    .card .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom: 16px;
     }
-    [data-theme="dark"] .icon{ background: rgba(2,6,23,.35); }
-    .icon svg{ width:20px; height:20px; }
+    
+    .card h3{ margin:0; font-size:18px; font-weight: 700; }
+    
+    .badge{
+      font-family: var(--font-heading);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 6px 12px;
+      border-radius: 99px;
+    }
+    .badge{ background: #e0f2fe; color: #0284c7; }
+    .badge.teal{ background: var(--teal-light); color: var(--teal); }
+    .badge.amber{ background: var(--amber-light); color: var(--amber); }
 
-    /* Tabs */
+    /* ---------- Tabs & Perspectives ---------- */
     .tabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top: 14px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 99px;
+      display: inline-flex;
     }
     .tab{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.55);
-      color: var(--muted);
-      padding: 10px 12px;
-      border-radius: 999px;
-      cursor:pointer;
-      font-weight: 650;
-      font-size: 12px;
-      user-select:none;
-      outline:none;
-    }
-    [data-theme="dark"] .tab{ background: rgba(2,6,23,.35); }
-    .tab[aria-selected="true"]{
-      color: var(--text);
-      border-color: rgba(37,99,235,.42);
-      box-shadow: 0 0 0 4px var(--ring);
-      background: linear-gradient(135deg, rgba(37,99,235,.18), rgba(6,182,212,.12));
-    }
-
-    .tabpanel{
-      margin-top: 14px;
-      display:none;
-    }
-    .tabpanel.active{ display:block; }
-
-    .list{
-      margin: 10px 0 0 18px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* Accordion */
-    .accordion{
-      margin-top: 12px;
-      display:grid;
-      gap:10px;
-    }
-    .acc{
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: rgba(255,255,255,.50);
-      overflow:hidden;
-    }
-    [data-theme="dark"] .acc{ background: rgba(2,6,23,.28); }
-    .acc button{
-      width:100%;
-      text-align:left;
-      padding: 12px 12px;
+      border:none;
       background: transparent;
-      border:0;
+      padding: 10px 24px;
+      border-radius: 99px;
       cursor:pointer;
-      color: var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-weight: 750;
-      letter-spacing:-0.1px;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-family: var(--font-heading);
+      transition: all 0.2s;
     }
-    .acc .body{
-      padding: 0 12px 12px;
-      color: var(--muted);
-      font-size: 13px;
-      display:none;
-    }
-    .acc.open .body{ display:block; }
-    .chev{
-      width: 18px; height: 18px;
-      transition: .2s ease;
-      opacity:.75;
-    }
-    .acc.open .chev{ transform: rotate(180deg); }
-
-    /* Simple “data” chart */
-    .chart{
-      width:100%;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.42);
-      padding: 14px;
-      margin-top: 12px;
-    }
-    [data-theme="dark"] .chart{ background: rgba(2,6,23,.25); }
-    .chart .cap{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      color: var(--muted2);
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-    .chart svg{ width:100%; height:120px; display:block; }
-    .chart .note{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
+    .tab[aria-selected="true"]{
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 32px;
+    }
+    /* Hide the unused panel visually but keep semantics accessible */
+    .split .panel[hidden] { display: none; }
+
+    .panel{
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid white;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .bullets li{
+      display:flex; gap:16px; align-items:flex-start;
+      margin-bottom: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
+    }
+    
+    .check{
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--teal);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .check::after{
+      content:"";
+      width: 6px; height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    /* ---------- How It Works (Steps) ---------- */
+    .how {
+      display: grid;
+      gap: 20px;
+      position: relative;
+    }
+    /* Subtle line connecting steps */
+    .how::before {
+      content: '';
+      position: absolute;
+      left: 35px; /* Center of num */
+      top: 30px;
+      bottom: 30px;
+      width: 2px;
+      background: #e2e8f0;
+      z-index: 0;
+    }
+
+    .step{
+      position: relative;
+      z-index: 1;
+      display:grid;
+      grid-template-columns: 70px 1fr;
+      gap: 24px;
+      padding: 24px;
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+      transition: transform 0.2s;
+    }
+    .step:hover { transform: translateX(10px); border-color: var(--primary); }
+
+    .num{
+      width: 70px; height: 70px;
+      border-radius: 20px;
+      background: #f0f9ff;
+      color: var(--primary);
+      font-size: 24px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+      border: 2px solid white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* ---------- CTA Section ---------- */
+    .cta{
+      background: linear-gradient(120deg, var(--primary-dark), var(--teal));
+      color: white;
+      padding: 60px;
+      border-radius: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      box-shadow: 0 20px 40px rgba(13, 148, 136, 0.2);
+    }
+    .cta h3 { font-size: 24px; margin: 0 0 10px; color: white; }
+    .cta p { color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; }
+    
+    .cta .btn.primary {
+      background: white;
+      color: var(--primary);
+      box-shadow: none;
+    }
+    .cta .btn.ghost { color: white; border-color: rgba(255,255,255,0.3); }
+
+    /* ---------- Footer ---------- */
     footer{
-      margin-top: 18px;
-      color: var(--muted2);
-      font-size: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      padding: 10px 2px;
+      background: white;
+      border-top: 1px solid #f1f5f9;
+      padding: 60px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .foot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .foot-card b { display: block; font-size: 16px; color: var(--text-main); margin-bottom: 12px; }
+    .links a { 
+      display: inline-block; 
+      margin-right: 16px; 
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .links a:hover { color: var(--primary); }
+
+    /* ---------- Animations (Reveal on Scroll) ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .sr-only{
-      position:absolute;
-      width:1px;height:1px;
-      padding:0;margin:-1px;
-      overflow:hidden;clip:rect(0,0,0,0);
-      white-space:nowrap;border:0;
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px){
+      .topbar-inner { padding: 10px 16px; }
+      .nav { display: none; }
+      .hero-video h1 { font-size: 36px; }
+      .split { grid-template-columns: 1fr; }
+      .cta { padding: 30px; text-align: center; justify-content: center; }
+      .cta .left, .cta .right { width: 100%; justify-content: center; }
+      .foot-grid { grid-template-columns: 1fr; }
+      
+      .how::before { left: 29px; } /* Adjust line for smaller num box if needed */
+      .step { grid-template-columns: 60px 1fr; gap: 16px; padding: 16px; }
+      .num { width: 60px; height: 60px; font-size: 20px; }
     }
   </style>
 </head>
 
-<body data-theme="light">
-  <div class="bg-grid" aria-hidden="true"></div>
-
+<body id="top">
+  
   <div class="topbar">
-    <div class="nav">
-      <div class="brand">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="MedLync home">
         <div class="logo" aria-hidden="true"></div>
         <div>
-          <strong>MedLync</strong>
-          <span id="brandTagline">A collaboration platform for modern healthcare</span>
+          <h1>MedLync</h1>
+          <small data-i18n="brandSub">Provider–Practitioner Collaboration</small>
         </div>
-      </div>
+      </a>
 
-      <nav class="navlinks" aria-label="Primary">
-        <a href="#platform" id="navPlatform">Platform</a>
-        <a href="#impact" id="navImpact">Impact</a>
-        <a href="#ecosystem" id="navEcosystem">Ecosystem</a>
-        <a href="#trust" id="navTrust">Trust</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#vision" data-i18n="navVision">Vision</a>
+        <a href="#scenarios" data-i18n="navScenarios">Scenarios</a>
+        <a href="#perspectives" data-i18n="navPerspectives">Perspectives</a>
+        <a href="#how" data-i18n="navHow">Approach</a>
+        <a href="#trust" data-i18n="navTrust">Trust</a>
       </nav>
 
-      <div class="controls">
-        <div class="chip" title="Language">
-          <span id="langLabel">EN</span>
-          <button class="toggle" id="langToggle" type="button" aria-label="Toggle language" aria-pressed="false">
-            <span class="knob" aria-hidden="true"></span>
-          </button>
-          <span id="langHint">ES</span>
+      <div class="actions">
+        <div class="pill" title="Language">
+          <span data-i18n="langLabel">LANG</span>
+          <div class="toggle">
+            <button class="btn ghost" id="langEn" type="button" aria-pressed="true">EN</button>
+            <button class="btn ghost" id="langEs" type="button" aria-pressed="false">ES</button>
+          </div>
         </div>
-
-        <div class="chip" title="Theme">
-          <span id="themeLabel">Light</span>
-          <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
-            <span class="knob" aria-hidden="true"></span>
-          </button>
-          <span id="themeHint">Dark</span>
-        </div>
-
-        <a class="btn btnPrimary" href="#cta" id="topCta">Request a demo</a>
+        <button class="btn primary" type="button" onclick="scrollToId('cta')" data-i18n="topCta">Request early access</button>
       </div>
     </div>
   </div>
 
-  <div class="wrap">
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero">
-      <div class="hero-top">
-        <div class="hero-content">
-          <div class="badge" id="heroBadge">
-            <span aria-hidden="true">✦</span>
-            <span id="badgeText">Built for Spain • Designed for Europe</span>
+  <header class="hero-video">
+    <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
+      <source src="videos/medlync-hero.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero-video-overlay"></div>
+
+    <div class="container hero-video-content reveal">
+      <h1 data-i18n="heroTitle">Powering Connected Healthcare</h1>
+      <p data-i18n="heroSub">
+        MedLync uses AI to connect providers and practitioners,
+        enabling smarter collaboration across the healthcare system.
+      </p>
+      </div>
+  </header>
+
+  <section id="vision">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2 data-i18n="visionTitle">MedLync is a healthcare improvement platform designed to strengthen the healthcare system.</h2>
+        <p data-i18n="visionSub">
+          MedLync is designed as a healthcare improvement platform—not a staffing marketplace.
+          We enable coordinated collaboration between providers and practitioners for real clinical 
+          and operational needs.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="v1Title">Shared purpose</h3>
+            <span class="badge" data-i18n="v1Badge">System improvement</span>
           </div>
-          <h1 id="headline">Elevating Healthcare</h1>
-          <p class="lead" id="lead">
-            MedLync connects practitioners and providers through a modern collaboration layer—improving readiness, continuity, and patient experience.”
+          <p data-i18n="v1Body">
+            Providers and practitioners align around care quality, predictable operations, and better patient journeys—
+            not just filling shifts.
           </p>
-            
-              <div class="hero-actions">
-                <a class="btn btnPrimary" href="#platform" id="ctaPrimary">Explore the platform</a>
-                <a class="btn" href="#ecosystem" id="ctaSecondary">How it helps practitioners</a>
-                <a class="btn" href="#trust" id="ctaTertiary">Trust & compliance</a>
-              </div>
-          
         </div>
 
-        <div style="min-width: 1000px; max-width: 420px;">
-          <div class="metrics" aria-label="Key metrics">
-            <div class="metric">
-              <div class="k" id="m1k">Faster coordination</div>
-              <div class="v"><span data-count="42" class="count">0</span>%</div>
-              <div class="s" id="m1s">Less admin back-and-forth</div>
-            </div>
-            <div class="metric">
-              <div class="k" id="m2k">Continuity</div>
-              <div class="v"><span data-count="28" class="count">0</span>%</div>
-              <div class="s" id="m2s">Fewer last-minute gaps</div>
-            </div>
-            <div class="metric">
-              <div class="k" id="m3k">Practitioner experience</div>
-              <div class="v"><span data-count="35" class="count">0</span>%</div>
-              <div class="s" id="m3s">Higher schedule control</div>
-            </div>
-            <div class="metric">
-              <div class="k" id="m4k">Quality signal</div>
-              <div class="v"><span data-count="3" class="count">0</span>.0</div>
-              <div class="s" id="m4s">Structured fit indicators</div>
-            </div>
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="v2Title">Clarity of collaboration</h3>
+            <span class="badge teal" data-i18n="v2Badge">Less friction</span>
           </div>
+          <p data-i18n="v2Body">
+            Each collaboration includes scope, schedule, expectations, and roles—so teams can focus on care, not chaos.
+          </p>
+        </div>
 
-          <div class="chart" aria-label="System impact snapshot">
-            <div class="cap">
-              <span id="chartTitle">Operational friction</span>
-              <span id="chartPeriod">Snapshot</span>
-            </div>
-            <svg viewBox="0 0 600 160" role="img" aria-label="Trend line">
-              <defs>
-                <linearGradient id="gLine" x1="0" x2="1">
-                  <stop offset="0" stop-color="var(--a1)"/>
-                  <stop offset="0.5" stop-color="var(--a2)"/>
-                  <stop offset="1" stop-color="var(--a3)"/>
-                </linearGradient>
-              </defs>
-              <path d="M20,120 C120,30 220,140 320,70 C420,20 520,90 580,40"
-                    fill="none" stroke="url(#gLine)" stroke-width="8" stroke-linecap="round"/>
-              <circle cx="580" cy="40" r="9" fill="var(--a3)"/>
-              <path d="M20,140 L580,140" stroke="rgba(148,163,184,.45)" stroke-width="2"/>
-            </svg>
-            <div class="note" id="chartNote">
-              A tech-enabled workflow reduces disruption while protecting care quality.
-            </div>
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="v3Title">Trust by design</h3>
+            <span class="badge amber" data-i18n="v3Badge">Safety first</span>
           </div>
+          <p data-i18n="v3Body">
+            Verification hooks, compliance-ready workflows, and audit-friendly records—without touching patient data.
+          </p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PLATFORM -->
-    <section id="platform" class="section">
-      <h2 id="platformTitle">A healthcare collaboration platform — built like modern tech</h2>
-      <p id="platformIntro">
-        MedLync behaves like a system layer: it standardizes how professionals present readiness and how organizations coordinate care coverage—without turning care into “gig work.”
-      </p>
-
-      <div class="grid" style="margin-top:14px;">
-        <div class="card col4">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 2v6m0 8v6M2 12h6m8 0h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M7 12a5 5 0 1 0 10 0 5 5 0 0 0-10 0Z" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h3 id="f1t">Structured profiles</h3>
-          <p id="f1p">Skills, credentials, preferences, and availability—expressed in a consistent format that supports matching and trust.</p>
-        </div>
-
-        <div class="card col4">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M18 10l2 2-2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3 id="f2t">Workflow-first coordination</h3>
-          <p id="f2p">Reduce friction with clear handoffs, confirmations, and a shared view of readiness—built for operational reality.</p>
-        </div>
-
-        <div class="card col4">
-          <div class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M4 19V5m0 14h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M7 15l3-4 3 2 4-6 3 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3 id="f3t">Insights & governance</h3>
-          <p id="f3p">Analytics that support better decisions: continuity signals, quality indicators, and operational patterns—without patient data.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- IMPACT (Tabs) -->
-    <section id="impact" class="section">
-      <h2 id="impactTitle">Impact by audience</h2>
-      <p id="impactIntro">Choose a lens—practitioners, providers, or patients—to see how MedLync elevates the system.</p>
-
-      <div class="tabs" role="tablist" aria-label="Impact tabs">
-        <button class="tab" id="tab-pract" role="tab" aria-controls="panel-pract" aria-selected="true">Practitioners</button>
-        <button class="tab" id="tab-prov" role="tab" aria-controls="panel-prov" aria-selected="false">Providers</button>
-        <button class="tab" id="tab-pat" role="tab" aria-controls="panel-pat" aria-selected="false">Patients</button>
+  <section id="scenarios" style="background: white;">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2 data-i18n="scnTitle">Real-World Collaboration in Practice</h2>
+        <p data-i18n="scnSub">
+          Real examples of how MedLync brings providers and practitioners together to improve care delivery.
+        </p>
       </div>
 
-      <div id="panel-pract" class="tabpanel active" role="tabpanel" aria-labelledby="tab-pract">
-        <div class="grid">
-          <div class="card col6">
-            <h3 id="pPractT">More control. Less noise. Better career signal.</h3>
-            <p id="pPractP">A professional experience that prioritizes growth and stability, not transactions.</p>
-            <ul class="list" id="pPractL"></ul>
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="s1Title">Procedure support</h3>
+            <span class="badge" data-i18n="s1Badge">Planned</span>
           </div>
-          <div class="card col6">
-            <h3 id="pPractT2">Built for roles across the system</h3>
-            <p id="pPractP2">Nurses, TCAE, radiology, lab, and other healthcare professionals—organized and supported consistently.</p>
-            <ul class="list" id="pPractL2"></ul>
+          <p data-i18n="s1Body">
+            A clinic needs a radiology tech for a procedure window. MedLync coordinates availability, requirements,
+            and readiness so the day runs on time.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="s2Title">Short-term clinic reinforcement</h3>
+            <span class="badge teal" data-i18n="s2Badge">Coverage</span>
+          </div>
+          <p data-i18n="s2Body">
+            A provider anticipates seasonal demand. Practitioners collaborate as part of a plan—helping reduce delays
+            and protect quality of care.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="s3Title">Day-to-day operational help</h3>
+            <span class="badge amber" data-i18n="s3Badge">Continuity</span>
+          </div>
+          <p data-i18n="s3Body">
+            A busy facility needs support for workflow tasks that free licensed staff to focus on patients—clear scope,
+            measurable impact.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="perspectives">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2 data-i18n="perspTitle">Built for both perspectives</h2>
+        <p data-i18n="perspSub">
+          Two tailored paths, one shared outcome. This prevents the site from feeling provider-only or practitioner-only.
+        </p>
+        
+        <div style="margin-top:24px;">
+          <div class="tabs" role="tablist" aria-label="Perspectives">
+            <button class="tab" id="tabProvider" role="tab" aria-selected="true" aria-controls="panelProvider" type="button" data-i18n="tabProvider">
+              For providers
+            </button>
+            <button class="tab" id="tabPractitioner" role="tab" aria-selected="false" aria-controls="panelPractitioner" type="button" data-i18n="tabPractitioner">
+              For practitioners
+            </button>
           </div>
         </div>
       </div>
 
-      <div id="panel-prov" class="tabpanel" role="tabpanel" aria-labelledby="tab-prov">
-        <div class="grid">
-          <div class="card col6">
-            <h3 id="pProvT">Reliable coverage without compromising quality</h3>
-            <p id="pProvP">Better coordination and fit reduces disruption for clinical operations.</p>
-            <ul class="list" id="pProvL"></ul>
+      <div class="split reveal">
+        <div class="panel" id="panelProvider" role="tabpanel" aria-labelledby="tabProvider">
+          <h3 data-i18n="provTitle">Provider experience: plan care support with confidence</h3>
+          <p data-i18n="provSub" style="margin-bottom:24px;">
+            Define your needs clearly, collaborate on readiness, and reduce operational friction—without turning care into “gig work.”
+          </p>
+          <ul class="bullets">
+            <li><span class="check"></span><span data-i18n="provB1">Describe the care need (scope, timing, requirements) in a structured format.</span></li>
+            <li><span class="check"></span><span data-i18n="provB2">Get responses aligned to skills, availability, and clinic rules—less back-and-forth.</span></li>
+            <li><span class="check"></span><span data-i18n="provB3">Coordinate collaboration details in one place (handoff notes, checklists, confirmations).</span></li>
+            <li><span class="check"></span><span data-i18n="provB4">Measure impact: fewer delays, smoother days, improved patient experience.</span></li>
+          </ul>
+        </div>
+
+        <div class="panel" id="panelPractitioner" role="tabpanel" aria-labelledby="tabPractitioner" hidden>
+          <h3 data-i18n="pracTitle">Practitioner experience: collaborate with purpose</h3>
+          <p data-i18n="pracSub" style="margin-bottom:24px;">
+            Choose collaborations that match your skills and values—support providers, strengthen the system, and grow your career.
+          </p>
+          <ul class="bullets">
+            <li><span class="check"></span><span data-i18n="pracB1">See clear expectations up front: scope, schedule, and what “good” looks like.</span></li>
+            <li><span class="check"></span><span data-i18n="pracB2">Build a collaboration profile that reflects clinical strengths and reliability.</span></li>
+            <li><span class="check"></span><span data-i18n="pracB3">Contribute to better care flow—reducing wait times and operational strain.</span></li>
+            <li><span class="check"></span><span data-i18n="pracB4">Show outcomes and contributions you can be proud of (without patient data).</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="background: white;">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2 data-i18n="howTitle">How collaboration works (simple, structured, transparent)</h2>
+        <p data-i18n="howSub">
+          This section keeps it “tech + trustworthy” while staying human.
+        </p>
+      </div>
+
+      <div class="how">
+        <div class="step reveal">
+          <div class="num">01</div>
+          <div>
+            <h3 data-i18n="h1Title">Define the care collaboration</h3>
+            <p data-i18n="h1Body">
+              Providers describe the procedure/clinic need with clear requirements, timing, and role expectations—so the right people can engage.
+            </p>
           </div>
-          <div class="card col6">
-            <h3 id="pProvT2">Operational clarity at scale</h3>
-            <p id="pProvP2">A platform layer that helps hospitals and clinics standardize how they collaborate with professionals.</p>
-            <ul class="list" id="pProvL2"></ul>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">02</div>
+          <div>
+            <h3 data-i18n="h2Title">Match with context</h3>
+            <p data-i18n="h2Body">
+              MedLync surfaces practitioners based on skills, availability, and collaboration fit—then keeps communication in one place.
+            </p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">03</div>
+          <div>
+            <h3 data-i18n="h3Title">Confirm readiness</h3>
+            <p data-i18n="h3Body">
+              Built-in checklists and confirmations reduce no-shows, confusion, and last-minute scrambling—supporting smoother patient care.
+            </p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">04</div>
+          <div>
+            <h3 data-i18n="h4Title">Learn and improve</h3>
+            <p data-i18n="h4Body">
+              Track operational outcomes (on-time starts, coverage rates, satisfaction signals) without storing patient data.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust">
+    <div class="container">
+      <div class="section-title reveal">
+        <h2 data-i18n="trustTitle">Trust, safety, and transparency</h2>
+        <p data-i18n="trustSub">
+          High-level trust verification mechanisms.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="t1Title">Role clarity</h3>
+            <span class="badge" data-i18n="t1Badge">Less risk</span>
+          </div>
+          <p data-i18n="t1Body">
+            Structured collaboration details reduce misunderstandings and align expectations across the care team.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="t2Title">Verification hooks</h3>
+            <span class="badge teal" data-i18n="t2Badge">Confidence</span>
+          </div>
+          <p data-i18n="t2Body">
+            Build workflows that support credential verification and audit-friendly records—without exposing sensitive information.
+          </p>
+        </div>
+
+        <div class="card reveal">
+          <div class="top">
+            <h3 data-i18n="t3Title">No patient data required</h3>
+            <span class="badge amber" data-i18n="t3Badge">By design</span>
+          </div>
+          <p data-i18n="t3Body">
+            MedLync can focus on workforce collaboration and operations, not clinical records—reducing regulatory complexity.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="container">
+      <div class="cta reveal" role="region" aria-label="Call to action">
+        <div class="left" style="flex:1; min-width:300px;">
+          <h3 data-i18n="ctaTitle">Ready to collaborate—without the “staffing site” feel?</h3>
+          <p data-i18n="ctaBody">
+            Tell us whether you’re a provider or practitioner and what kind of collaborations you want to enable. We’ll share next steps for early access.
+          </p>
+        </div>
+        <div class="right">
+          <button class="btn primary" type="button" data-i18n="ctaBtn1">Provider: request early access</button>
+          <button class="btn ghost" style="background: rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4);" type="button" data-i18n="ctaBtn2">Practitioner: join the network</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-card">
+          <b data-i18n="foot1Title">MedLync</b>
+          <div style="margin-top:8px" data-i18n="foot1Body">
+            A collaboration platform connecting providers and practitioners to elevate care quality and operational flow.
+          </div>
+          <div class="links" style="margin-top: 20px;">
+            <a href="#vision" data-i18n="footLink1">Vision</a>
+            <a href="#how" data-i18n="footLink2">Approach</a>
+            <a href="#trust" data-i18n="footLink3">Trust</a>
+          </div>
+        </div>
+
+        <div class="foot-card">
+          <b data-i18n="foot2Title">Contact</b>
+          <div style="margin-top:8px">
+             admin@medlync.es
+          </div>
+          <div class="links" style="margin-top: 20px;">
+            <a href="#" aria-label="LinkedIn" data-i18n="footLinkLinkedIn">LinkedIn</a>
           </div>
         </div>
       </div>
 
-      <div id="panel-pat" class="tabpanel" role="tabpanel" aria-labelledby="tab-pat">
-        <div class="grid">
-          <div class="card col6">
-            <h3 id="pPatT">Higher continuity, better experience</h3>
-            <p id="pPatP">Care improves when teams are supported and coverage is predictable.</p>
-            <ul class="list" id="pPatL"></ul>
-          </div>
-          <div class="card col6">
-            <h3 id="pPatT2">A system that feels more human</h3>
-            <p id="pPatP2">Less chaos behind the scenes means more presence at the bedside.</p>
-            <ul class="list" id="pPatL2"></ul>
-          </div>
-        </div>
+      <div style="margin-top:32px; opacity:.7; font-size: 13px;">
+        <span data-i18n="copyright">
+          © <span id="year"></span> MedLync. Collaboration-first healthcare operations.
+        </span>
       </div>
-    </section>
-
-    <!-- ECOSYSTEM -->
-    <section id="ecosystem" class="section">
-      <h2 id="ecoTitle">Ecosystem design: elevate the system, not just the schedule</h2>
-      <p id="ecoIntro">
-        MedLync’s approach: make collaboration the default—supported by standards, workflows, and insight.
-      </p>
-
-      <div class="grid">
-        <div class="card col8">
-          <h3 id="timelineTitle">How it works (high level)</h3>
-          <ul class="list" id="timelineList"></ul>
-        </div>
-
-        <div class="card col4">
-          <h3 id="pillarsTitle">Core pillars</h3>
-          <ul class="list" id="pillarsList"></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- TRUST (Accordion) -->
-    <section id="trust" class="section">
-      <h2 id="trustTitle">Trust, safety, and compliance mindset</h2>
-      <p id="trustIntro">
-        MedLync is designed to support workforce collaboration and operational insight—while avoiding patient data wherever possible.
-      </p>
-
-      <div class="accordion" id="accRoot" aria-label="Trust accordion"></div>
-    </section>
-
-    <!-- CTA -->
-    <section id="cta" class="section">
-      <h2 id="ctaTitle">Ready to elevate care collaboration?</h2>
-      <p id="ctaIntro">If you’re building a higher-quality, more resilient healthcare system in Spain or across Europe, MedLync can help.</p>
-      <div class="hero-actions">
-        <a class="btn btnPrimary" href="#" id="ctaBtn1">Request a demo</a>
-        <a class="btn" href="#" id="ctaBtn2">Partner with us</a>
-      </div>
-    </section>
-
-    <footer>
-      <div>© <span id="year"></span> MedLync</div>
-      <div id="footerRight">Collaboration • Quality • Patient-first outcomes</div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script>
-    // -----------------------------
-    // i18n content
-    // -----------------------------
-    const I18N = {
+    // ---------- Utilities ----------
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ---------- Scroll Animation Observer ----------
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // ---------- Tabs (Provider / Practitioner) ----------
+    const tabProvider = document.getElementById("tabProvider");
+    const tabPractitioner = document.getElementById("tabPractitioner");
+    const panelProvider = document.getElementById("panelProvider");
+    const panelPractitioner = document.getElementById("panelPractitioner");
+
+    function setTab(which){
+      const isProvider = which === "provider";
+      tabProvider.setAttribute("aria-selected", String(isProvider));
+      tabPractitioner.setAttribute("aria-selected", String(!isProvider));
+      panelProvider.hidden = !isProvider;
+      panelPractitioner.hidden = isProvider;
+    }
+
+    tabProvider.addEventListener("click", () => setTab("provider"));
+    tabPractitioner.addEventListener("click", () => setTab("practitioner"));
+
+    // ---------- i18n (Content) ----------
+    const i18n = {
       en: {
-        brandTagline: "A collaboration platform for modern healthcare",
-        navPlatform: "Platform",
-        navImpact: "Impact",
-        navEcosystem: "Ecosystem",
+        brandSub: "Provider–Practitioner Collaboration",
+        navVision: "Vision",
+        navScenarios: "Scenarios",
+        navPerspectives: "Perspectives",
+        navHow: "Approach",
         navTrust: "Trust",
-        topCta: "Request a demo",
+        langLabel: "LANG",
+        topCta: "Request early access",
+        
+        heroTitle: "Powering Connected Healthcare",
+        heroSub: "MedLync uses AI to connect providers and practitioners, enabling smarter collaboration across the healthcare system.",
 
-        badgeText: "Built for Spain • Designed for Europe",
-        headline: "Elevating Healthcare in Spain & Across Europe",
-        lead: "MedLync connects practitioners and providers through a modern collaboration layer—improving readiness, continuity, and patient experience without feeling like “staffing.”",
-        ctaPrimary: "Explore the platform",
-        ctaSecondary: "How it helps practitioners",
-        ctaTertiary: "Trust & compliance",
+        visionTitle: "MedLync is a healthcare improvement platform designed to strengthen the healthcare system.",
+        visionSub:"We enable coordinated collaboration between providers and practitioners to support real clinical and operational needs, improving quality of care, continuity, and the patient experience.",
+        v1Title: "Shared purpose",
+        v1Badge: "System improvement",
+        v1Body: "Providers and practitioners align around care quality, predictable operations, and better patient journeys—not just filling shifts.",
+        v2Title: "Clarity of collaboration",
+        v2Badge: "Less friction",
+        v2Body: "Each collaboration includes scope, schedule, expectations, and roles—so teams can focus on care, not chaos.",
+        v3Title: "Trust by design",
+        v3Badge: "Safety first",
+        v3Body: "Verification hooks, compliance-ready workflows, and audit-friendly records—without touching patient data.",
 
-        m1k: "Faster coordination",
-        m1s: "Less admin back-and-forth",
-        m2k: "Continuity",
-        m2s: "Fewer last-minute gaps",
-        m3k: "Practitioner experience",
-        m3s: "Higher schedule control",
-        m4k: "Quality signal",
-        m4s: "Structured fit indicators",
+        scnTitle: "Real-world collaboration scenarios",
+        scnSub: "Real examples of how MedLync brings providers and practitioners together to improve care delivery, operational stability, and the overall performance of the healthcare system.",
+        s1Title: "Procedure support",
+        s1Badge: "Planned",
+        s1Body: "A clinic needs a radiology tech for a procedure window. MedLync coordinates availability, requirements, and readiness so the day runs on time.",
+        s2Title: "Short-term clinic reinforcement",
+        s2Badge: "Coverage",
+        s2Body: "A provider anticipates seasonal demand. Practitioners collaborate as part of a plan—helping reduce delays and protect quality of care.",
+        s3Title: "Day-to-day operational help",
+        s3Badge: "Continuity",
+        s3Body: "A busy facility needs support for workflow tasks that free licensed staff to focus on patients—clear scope, measurable impact.",
 
-        chartTitle: "Operational friction",
-        chartPeriod: "Snapshot",
-        chartNote: "A tech-enabled workflow reduces disruption while protecting care quality.",
+        perspTitle: "Built for both perspectives",
+        perspSub: "Two tailored paths, one shared outcome. This prevents the site from feeling provider-only or practitioner-only.",
+        tabProvider: "For providers",
+        tabPractitioner: "For practitioners",
 
-        platformTitle: "A healthcare collaboration platform — built like modern tech",
-        platformIntro: "MedLync behaves like a system layer: it standardizes how professionals present readiness and how organizations coordinate care coverage—without turning care into “gig work.”",
-        f1t: "Structured profiles",
-        f1p: "Skills, credentials, preferences, and availability—expressed in a consistent format that supports matching and trust.",
-        f2t: "Workflow-first coordination",
-        f2p: "Reduce friction with clear handoffs, confirmations, and a shared view of readiness—built for operational reality.",
-        f3t: "Insights & governance",
-        f3p: "Analytics that support better decisions: continuity signals, quality indicators, and operational patterns—without patient data.",
+        provTitle: "Provider experience: plan care support with confidence",
+        provSub: "Define your needs clearly, collaborate on readiness, and reduce operational friction—without turning care into “gig work.”",
+        provB1: "Describe the care need (scope, timing, requirements) in a structured format.",
+        provB2: "Get responses aligned to skills, availability, and clinic rules—less back-and-forth.",
+        provB3: "Coordinate collaboration details in one place (handoff notes, checklists, confirmations).",
+        provB4: "Measure impact: fewer delays, smoother days, improved patient experience.",
 
-        impactTitle: "Impact by audience",
-        impactIntro: "Choose a lens—practitioners, providers, or patients—to see how MedLync elevates the system.",
-        tabPract: "Practitioners",
-        tabProv: "Providers",
-        tabPat: "Patients",
+        pracTitle: "Practitioner experience: collaborate with purpose",
+        pracSub: "Choose collaborations that match your skills and values—support providers, strengthen the system, and grow your career.",
+        pracB1: "See clear expectations up front: scope, schedule, and what “good” looks like.",
+        pracB2: "Build a collaboration profile that reflects clinical strengths and reliability.",
+        pracB3: "Contribute to better care flow—reducing wait times and operational strain.",
+        pracB4: "Show outcomes and contributions you can be proud of (without patient data).",
 
-        pPractT: "More control. Less noise. Better career signal.",
-        pPractP: "A professional experience that prioritizes growth and stability, not transactions.",
-        pPractL: [
-          "Express preferences clearly: shifts, locations, specialties, and availability",
-          "Reduce fragmented messaging and manual coordination",
-          "Highlight readiness and reliability with consistent signals"
-        ],
-        pPractT2: "Built for roles across the system",
-        pPractP2: "Nurses, TCAE, radiology, lab, and other healthcare professionals—organized and supported consistently.",
-        pPractL2: [
-          "A consistent workflow regardless of role type",
-          "Tools that support professional growth and continuity",
-          "Clarity that protects work-life balance"
-        ],
+        howTitle: "How collaboration works (simple, structured, transparent)",
+        howSub: "This section keeps it “tech + trustworthy” while staying human. You can later swap these steps for your real process.",
+        h1Title: "Define the care collaboration",
+        h1Body: "Providers describe the procedure/clinic need with clear requirements, timing, and role expectations—so the right people can engage.",
+        h2Title: "Match with context",
+        h2Body: "MedLync surfaces practitioners based on skills, availability, and collaboration fit—then keeps communication in one place.",
+        h3Title: "Confirm readiness",
+        h3Body: "Built-in checklists and confirmations reduce no-shows, confusion, and last-minute scrambling—supporting smoother patient care.",
+        h4Title: "Learn and improve",
+        h4Body: "Track operational outcomes (on-time starts, coverage rates, satisfaction signals) without storing patient data.",
 
-        pProvT: "Reliable coverage without compromising quality",
-        pProvP: "Better coordination and fit reduces disruption for clinical operations.",
-        pProvL: [
-          "Match based on structured needs, not guesswork",
-          "Reduce last-minute cancellations with better alignment",
-          "Improve continuity for services and teams"
-        ],
-        pProvT2: "Operational clarity at scale",
-        pProvP2: "A platform layer that helps hospitals and clinics standardize how they collaborate with professionals.",
-        pProvL2: [
-          "Standardized readiness and confirmation flow",
-          "Faster coordination for managers and charge nurses",
-          "Insight into patterns—without touching patient data"
-        ],
+        trustTitle: "Trust, safety, and transparency",
+        trustSub: "Keep this high-level on the website. You can later add specific credential validation by professional college or regional registry.",
+        t1Title: "Role clarity",
+        t1Badge: "Less risk",
+        t1Body: "Structured collaboration details reduce misunderstandings and align expectations across the care team.",
+        t2Title: "Verification hooks",
+        t2Badge: "Confidence",
+        t2Body: "Build workflows that support credential verification and audit-friendly records—without exposing sensitive information.",
+        t3Title: "No patient data required",
+        t3Badge: "By design",
+        t3Body: "MedLync can focus on workforce collaboration and operations, not clinical records—reducing regulatory complexity.",
 
-        pPatT: "Higher continuity, better experience",
-        pPatP: "Care improves when teams are supported and coverage is predictable.",
-        pPatL: [
-          "Less disruption behind the scenes",
-          "Better continuity across shifts and services",
-          "More consistent quality of care"
-        ],
-        pPatT2: "A system that feels more human",
-        pPatP2: "Less chaos behind the scenes means more presence at the bedside.",
-        pPatL2: [
-          "More time for care, less time for coordination",
-          "Reduced burnout supports better patient interactions",
-          "Confidence built through consistency"
-        ],
+        ctaTitle: "Ready to collaborate—without the “staffing site” feel?",
+        ctaBody: "Tell us whether you’re a provider or practitioner and what kind of collaborations you want to enable. We’ll share next steps for early access.",
+        ctaBtn1: "Provider: request early access",
+        ctaBtn2: "Practitioner: join the network",
+        ctaBtn3: "Back to top",
 
-        ecoTitle: "Ecosystem design: elevate the system, not just the schedule",
-        ecoIntro: "MedLync’s approach: make collaboration the default—supported by standards, workflows, and insight.",
-        timelineTitle: "How it works (high level)",
-        timelineList: [
-          "Practitioner sets structured profile: skills, credentials, preferences, availability",
-          "Provider defines coverage needs with role clarity and requirements",
-          "Platform supports matching, confirmation, and operational handoffs",
-          "Insights help reduce friction, improve continuity, and support planning"
-        ],
-        pillarsTitle: "Core pillars",
-        pillarsList: [
-          "Professional empowerment",
-          "Operational consistency",
-          "Trust & verification mindset",
-          "Analytics without patient data"
-        ],
-
-        trustTitle: "Trust, safety, and compliance mindset",
-        trustIntro: "MedLync is designed to support workforce collaboration and operational insight—while avoiding patient data wherever possible.",
-        acc: [
-          {
-            q: "No patient data by design (wherever possible)",
-            a: "The platform is oriented around workforce coordination, readiness signals, and operations—so you can improve care delivery without ingesting patient records."
-          },
-          {
-            q: "Credential & readiness signals",
-            a: "Profiles can support structured credential/skill indicators and confirmation steps—helping providers coordinate with confidence."
-          },
-          {
-            q: "Auditability & governance mindset",
-            a: "Workflows can be designed to create clear, reviewable coordination steps—useful for internal governance and continuous improvement."
-          }
-        ],
-
-        ctaTitle: "Ready to elevate care collaboration?",
-        ctaIntro: "If you’re building a higher-quality, more resilient healthcare system in Spain or across Europe, MedLync can help.",
-        ctaBtn1: "Request a demo",
-        ctaBtn2: "Partner with us",
-
-        footerRight: "Collaboration • Quality • Patient-first outcomes",
-        themeLabelLight: "Light",
-        themeLabelDark: "Dark",
-        langLabelEN: "EN",
-        langLabelES: "ES"
+        foot1Title: "MedLync",
+        foot1Body: "A collaboration platform connecting providers and practitioners to elevate care quality and operational flow.",
+        footLink1: "Vision",
+        footLink2: "How it works",
+        footLink3: "Trust",
+        footLinkEmail: "Email",
+        footLinkLinkedIn: "LinkedIn",
+        foot2Title: "Contact",
+        copyright: "© <span id='year'></span> MedLync. Collaboration-first healthcare operations."
       },
 
       es: {
-        brandTagline: "Una plataforma de colaboración para la sanidad moderna",
-        navPlatform: "Plataforma",
-        navImpact: "Impacto",
-        navEcosystem: "Ecosistema",
+        brandSub: "Colaboración Proveedor–Profesional",
+        navVision: "Visión",
+        navScenarios: "Escenarios",
+        navPerspectives: "Perspectivas",
+        navHow: "Enfoque",
         navTrust: "Confianza",
-        topCta: "Solicitar demo",
+        langLabel: "IDIOMA",
+        topCta: "Solicitar acceso",
 
-        badgeText: "Hecho para España • Diseñado para Europa",
-        headline: "Elevando la sanidad en España y en toda Europa",
-        lead: "MedLync conecta a profesionales y centros mediante una capa moderna de colaboración—mejorando la preparación, la continuidad y la experiencia del paciente sin parecer “staffing”.",
-        ctaPrimary: "Explorar la plataforma",
-        ctaSecondary: "Cómo ayuda a profesionales",
-        ctaTertiary: "Confianza y cumplimiento",
+        heroTitle: "Impulsando la Sanidad Conectada",
+        heroSub: "MedLync usa IA para conectar proveedores y profesionales, permitiendo una colaboración más inteligente en todo el sistema sanitario.",
 
-        m1k: "Coordinación más rápida",
-        m1s: "Menos gestiones y mensajes",
-        m2k: "Continuidad",
-        m2s: "Menos huecos de última hora",
-        m3k: "Experiencia profesional",
-        m3s: "Más control de agenda",
-        m4k: "Señal de calidad",
-        m4s: "Indicadores de encaje",
+        visionTitle: "MedLync es una plataforma diseñada para fortalecer el sistema sanitario.",
+        visionSub: "Facilitamos la colaboración entre proveedores y profesionales para responder a necesidades clínicas reales, mejorando la calidad asistencial, la continuidad y la experiencia del paciente.",
+        v1Title: "Propósito compartido",
+        v1Badge: "Mejora del sistema",
+        v1Body: "Proveedores y profesionales se alinean en calidad, operaciones predecibles y mejores recorridos del paciente—no solo cubrir turnos.",
+        v2Title: "Claridad de la colaboración",
+        v2Badge: "Menos fricción",
+        v2Body: "Cada colaboración incluye alcance, horario, expectativas y roles—para enfocarse en la atención, no en el caos.",
+        v3Title: "Confianza por diseño",
+        v3Badge: "Seguridad",
+        v3Body: "Ganchos de verificación, flujos listos para cumplimiento y registros auditables—sin tocar datos del paciente.",
 
-        chartTitle: "Fricción operativa",
-        chartPeriod: "Resumen",
-        chartNote: "Un flujo de trabajo tecnológico reduce la interrupción sin sacrificar la calidad asistencial.",
+        scnTitle: "Colaboración en el Mundo Real",
+        scnSub: "Ejemplos reales de cómo MedLync conecta a proveedores y profesionales para mejorar la prestación de la atención sanitaria.",
+        s1Title: "Apoyo en procedimientos",
+        s1Badge: "Planificado",
+        s1Body: "Una clínica necesita apoyo técnico para una ventana de procedimiento. MedLync coordina disponibilidad, requisitos y preparación para que el día salga bien.",
+        s2Title: "Refuerzo temporal de clínica",
+        s2Badge: "Cobertura",
+        s2Body: "El proveedor anticipa demanda. Los profesionales colaboran dentro de un plan—reduciendo retrasos y protegiendo la calidad.",
+        s3Title: "Ayuda operativa diaria",
+        s3Badge: "Continuidad",
+        s3Body: "Un centro necesita apoyo para tareas de flujo que liberan al personal licenciado para centrarse en pacientes—alcance claro e impacto medible.",
 
-        platformTitle: "Una plataforma de colaboración sanitaria — construida como tecnología moderna",
-        platformIntro: "MedLync actúa como una capa del sistema: estandariza cómo los profesionales muestran disponibilidad y cómo los centros coordinan cobertura—sin convertir la asistencia en “gig work”.",
-        f1t: "Perfiles estructurados",
-        f1p: "Competencias, credenciales, preferencias y disponibilidad—en un formato consistente que facilita el encaje y la confianza.",
-        f2t: "Coordinación centrada en flujo",
-        f2p: "Menos fricción con traspasos claros, confirmaciones y una visión compartida de preparación—pensado para la realidad operativa.",
-        f3t: "Insights y gobernanza",
-        f3p: "Analítica para mejores decisiones: señales de continuidad, indicadores de calidad y patrones operativos—sin datos de pacientes.",
+        perspTitle: "Construido para ambas perspectivas",
+        perspSub: "Dos caminos adaptados, un resultado común. Así la web no se siente solo para proveedores o solo para profesionales.",
+        tabProvider: "Para proveedores",
+        tabPractitioner: "Para profesionales",
 
-        impactTitle: "Impacto por audiencia",
-        impactIntro: "Elige una perspectiva—profesionales, centros o pacientes—para ver cómo MedLync eleva el sistema.",
-        tabPract: "Profesionales",
-        tabProv: "Centros",
-        tabPat: "Pacientes",
+        provTitle: "Experiencia del proveedor: planifica con confianza",
+        provSub: "Define tus necesidades, coordina la preparación y reduce fricción—sin convertir la atención en “gig work”.",
+        provB1: "Describe la necesidad (alcance, horario, requisitos) de forma estructurada.",
+        provB2: "Recibe respuestas alineadas a habilidades, disponibilidad y reglas—menos idas y vueltas.",
+        provB3: "Coordina detalles en un solo lugar (handoff, checklists, confirmaciones).",
+        provB4: "Mide el impacto: menos retrasos, días más fluidos, mejor experiencia del paciente.",
 
-        pPractT: "Más control. Menos ruido. Mejor señal profesional.",
-        pPractP: "Una experiencia que prioriza crecimiento y estabilidad, no transacciones.",
-        pPractL: [
-          "Expresa preferencias: turnos, ubicaciones, especialidad y disponibilidad",
-          "Reduce mensajes fragmentados y coordinación manual",
-          "Destaca preparación y fiabilidad con señales consistentes"
-        ],
-        pPractT2: "Diseñado para roles en todo el sistema",
-        pPractP2: "Enfermería, TCAE, radiología, laboratorio y más—organizado de forma consistente.",
-        pPractL2: [
-          "Un flujo consistente independientemente del rol",
-          "Herramientas que apoyan crecimiento y continuidad",
-          "Claridad que protege el equilibrio vida-trabajo"
-        ],
+        pracTitle: "Experiencia del profesional: colaborar con propósito",
+        pracSub: "Elige colaboraciones alineadas con tus habilidades y valores—apoya a proveedores, fortalece el sistema y crece profesionalmente.",
+        pracB1: "Expectativas claras desde el inicio: alcance, horario y criterios de éxito.",
+        pracB2: "Crea un perfil de colaboración que refleje fortalezas clínicas y fiabilidad.",
+        pracB3: "Aporta a un mejor flujo—reduciendo esperas y carga operativa.",
+        pracB4: "Muestra contribuciones y resultados (sin datos del paciente).",
 
-        pProvT: "Cobertura fiable sin comprometer la calidad",
-        pProvP: "Mejor coordinación y encaje reduce interrupciones en la operación clínica.",
-        pProvL: [
-          "Encaje basado en necesidades estructuradas, no en suposiciones",
-          "Menos cancelaciones de última hora gracias a mejor alineación",
-          "Más continuidad para servicios y equipos"
-        ],
-        pProvT2: "Claridad operativa a escala",
-        pProvP2: "Una capa de plataforma que ayuda a estandarizar cómo los centros colaboran con profesionales.",
-        pProvL2: [
-          "Flujo estandarizado de preparación y confirmación",
-          "Coordinación más rápida para responsables y supervisión",
-          "Insights sobre patrones—sin tocar datos de pacientes"
-        ],
+        howTitle: "Cómo funciona la colaboración",
+        howSub: "Esta sección es “tech + confianza” sin perder el tono humano. Luego puedes cambiarlo por tu proceso real.",
+        h1Title: "Definir la colaboración",
+        h1Body: "El proveedor describe la necesidad con requisitos, horarios y expectativas—para que el encaje sea correcto.",
+        h2Title: "Conectar con contexto",
+        h2Body: "MedLync propone profesionales por habilidades, disponibilidad y encaje—y centraliza la comunicación.",
+        h3Title: "Confirmar preparación",
+        h3Body: "Checklists y confirmaciones reducen confusión y prisas de última hora—mejorando la atención.",
+        h4Title: "Aprender y mejorar",
+        h4Body: "Seguimiento de resultados operativos (puntualidad, cobertura, señales de satisfacción) sin almacenar datos del paciente.",
 
-        pPatT: "Mayor continuidad, mejor experiencia",
-        pPatP: "La atención mejora cuando los equipos están apoyados y la cobertura es predecible.",
-        pPatL: [
-          "Menos interrupción detrás de escena",
-          "Mejor continuidad entre turnos y servicios",
-          "Calidad de atención más consistente"
-        ],
-        pPatT2: "Un sistema más humano",
-        pPatP2: "Menos caos operativo permite más presencia junto al paciente.",
-        pPatL2: [
-          "Más tiempo para cuidar, menos para coordinar",
-          "Menos desgaste favorece mejores interacciones",
-          "Confianza creada por la consistencia"
-        ],
+        trustTitle: "Confianza, seguridad y transparencia",
+        trustSub: "Mantén esto a alto nivel en la web. Luego puedes añadir validación por colegio profesional o registro regional.",
+        t1Title: "Roles claros",
+        t1Badge: "Menos riesgo",
+        t1Body: "Detalles estructurados reducen malentendidos y alinean expectativas entre equipos.",
+        t2Title: "Ganchos de verificación",
+        t2Badge: "Confianza",
+        t2Body: "Flujos que soportan verificación de credenciales y registros auditables—sin exponer información sensible.",
+        t3Title: "Sin datos del paciente",
+        t3Badge: "Por diseño",
+        t3Body: "MedLync puede centrarse en colaboración operativa, no en historiales clínicos—reduciendo complejidad regulatoria.",
 
-        ecoTitle: "Diseño de ecosistema: elevar el sistema, no solo el calendario",
-        ecoIntro: "El enfoque de MedLync: hacer que la colaboración sea la norma—con estándares, flujos e insights.",
-        timelineTitle: "Cómo funciona (alto nivel)",
-        timelineList: [
-          "El profesional configura su perfil: competencias, credenciales, preferencias y disponibilidad",
-          "El centro define necesidades de cobertura con claridad de rol y requisitos",
-          "La plataforma apoya encaje, confirmación y traspasos operativos",
-          "La analítica reduce fricción, mejora continuidad y apoya planificación"
-        ],
-        pillarsTitle: "Pilares",
-        pillarsList: [
-          "Empoderamiento profesional",
-          "Consistencia operativa",
-          "Mentalidad de verificación y confianza",
-          "Analítica sin datos de pacientes"
-        ],
+        ctaTitle: "¿Listo para colaborar—sin que suene a “web de staffing”?",
+        ctaBody: "Dinos si eres proveedor o profesional y qué tipo de colaboraciones quieres habilitar. Te compartimos próximos pasos para acceso anticipado.",
+        ctaBtn1: "Proveedor: solicitar acceso",
+        ctaBtn2: "Profesional: unirme a la red",
+        ctaBtn3: "Volver arriba",
 
-        trustTitle: "Confianza, seguridad y mentalidad de cumplimiento",
-        trustIntro: "MedLync está diseñada para coordinación de profesionales e insights operativos—evitando datos de pacientes siempre que sea posible.",
-        acc: [
-          {
-            q: "Sin datos de pacientes por diseño (siempre que sea posible)",
-            a: "La plataforma se centra en coordinación, señales de preparación y operación—para mejorar la prestación sin ingerir historias clínicas."
-          },
-          {
-            q: "Señales de credenciales y preparación",
-            a: "Los perfiles pueden incorporar indicadores estructurados y pasos de confirmación—para coordinar con confianza."
-          },
-          {
-            q: "Auditabilidad y gobernanza",
-            a: "Flujos pensados para pasos claros y revisables—útiles para gobernanza interna y mejora continua."
-          }
-        ],
-
-        ctaTitle: "¿Listo para elevar la colaboración asistencial?",
-        ctaIntro: "Si estás construyendo un sistema sanitario más resiliente y de mayor calidad en España o Europa, MedLync puede ayudar.",
-        ctaBtn1: "Solicitar demo",
-        ctaBtn2: "Colaborar",
-
-        footerRight: "Colaboración • Calidad • Resultados centrados en el paciente",
-        themeLabelLight: "Claro",
-        themeLabelDark: "Oscuro",
-        langLabelEN: "EN",
-        langLabelES: "ES"
+        foot1Title: "MedLync",
+        foot1Body: "Una plataforma que conecta proveedores y profesionales para elevar la calidad y el flujo operativo.",
+        footLink1: "Visión",
+        footLink2: "Cómo funciona",
+        footLink3: "Confianza",
+        footLinkEmail: "Email",
+        footLinkLinkedIn: "LinkedIn",
+        foot2Title: "Contacto",
+        copyright: "© <span id='year'></span> MedLync. Operaciones sanitarias basadas en colaboración."
       }
     };
 
-    const $ = (id) => document.getElementById(id);
+    let currentLang = "en";
 
-    const ids = [
-      "brandTagline","navPlatform","navImpact","navEcosystem","navTrust","topCta",
-      "badgeText","headline","lead","ctaPrimary","ctaSecondary","ctaTertiary",
-      "m1k","m1s","m2k","m2s","m3k","m3s","m4k","m4s",
-      "chartTitle","chartPeriod","chartNote",
-      "platformTitle","platformIntro","f1t","f1p","f2t","f2p","f3t","f3p",
-      "impactTitle","impactIntro",
-      "pPractT","pPractP","pPractT2","pPractP2",
-      "pProvT","pProvP","pProvT2","pProvP2",
-      "pPatT","pPatP","pPatT2","pPatP2",
-      "ecoTitle","ecoIntro","timelineTitle","pillarsTitle",
-      "trustTitle","trustIntro",
-      "ctaTitle","ctaIntro","ctaBtn1","ctaBtn2",
-      "footerRight"
-    ];
+    function applyI18n(lang){
+      currentLang = lang;
+      document.documentElement.lang = (lang === "es") ? "es" : "en";
 
-    function renderList(ulId, items){
-      const ul = $(ulId);
-      ul.innerHTML = "";
-      items.forEach(t => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        ul.appendChild(li);
-      });
-    }
+      const dict = i18n[lang];
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (!dict[key]) return;
 
-    function renderAccordion(items){
-      const root = $("accRoot");
-      root.innerHTML = "";
-      items.forEach((it, idx) => {
-        const wrap = document.createElement("div");
-        wrap.className = "acc";
-        wrap.innerHTML = `
-          <button type="button" aria-expanded="false">
-            <span>${it.q}</span>
-            <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="body">${it.a}</div>
-        `;
-        const btn = wrap.querySelector("button");
-        btn.addEventListener("click", () => {
-          const isOpen = wrap.classList.toggle("open");
-          btn.setAttribute("aria-expanded", String(isOpen));
-        });
-        root.appendChild(wrap);
-      });
-    }
-
-    function setLanguage(lang){
-      const t = I18N[lang];
-
-      document.documentElement.lang = lang;
-      document.title = (lang === "en") ? "MedLync – Elevating Healthcare" : "MedLync – Elevando la sanidad";
-
-      // Simple text ids
-      ids.forEach(id => { if($(id) && t[id]) $(id).textContent = t[id]; });
-
-      // Tabs labels
-      $("tab-pract").textContent = t.tabPract;
-      $("tab-prov").textContent = t.tabProv;
-      $("tab-pat").textContent = t.tabPat;
-
-      // Lists
-      renderList("pPractL", t.pPractL);
-      renderList("pPractL2", t.pPractL2);
-      renderList("pProvL", t.pProvL);
-      renderList("pProvL2", t.pProvL2);
-      renderList("pPatL", t.pPatL);
-      renderList("pPatL2", t.pPatL2);
-
-      renderList("timelineList", t.timelineList);
-      renderList("pillarsList", t.pillarsList);
-
-      // Accordion
-      renderAccordion(t.acc);
-
-      // Language chip labels
-      $("langLabel").textContent = (lang === "en") ? t.langLabelEN : t.langLabelES;
-      $("langHint").textContent  = (lang === "en") ? t.langLabelES : t.langLabelEN;
-
-      // Toggle UI state
-      const isEs = (lang === "es");
-      $("langToggle").classList.toggle("on", isEs);
-      $("langToggle").setAttribute("aria-pressed", String(isEs));
-
-      localStorage.setItem("medlync_lang", lang);
-    }
-
-    // Tabs behavior
-    function setTab(which){
-      const tabs = [
-        {btn:"tab-pract", panel:"panel-pract"},
-        {btn:"tab-prov", panel:"panel-prov"},
-        {btn:"tab-pat", panel:"panel-pat"}
-      ];
-      tabs.forEach(t => {
-        const selected = (t.btn === which);
-        $(t.btn).setAttribute("aria-selected", String(selected));
-        $(t.panel).classList.toggle("active", selected);
-      });
-    }
-
-    ["tab-pract","tab-prov","tab-pat"].forEach(id => {
-      $(id).addEventListener("click", () => setTab(id));
-    });
-
-    // Theme toggle
-    function setTheme(theme){
-      document.body.setAttribute("data-theme", theme);
-      const isDark = (theme === "dark");
-      $("themeToggle").classList.toggle("on", isDark);
-      $("themeToggle").setAttribute("aria-pressed", String(isDark));
-      $("themeLabel").textContent = isDark ? I18N[getLanguage()].themeLabelDark : I18N[getLanguage()].themeLabelLight;
-      localStorage.setItem("medlync_theme", theme);
-    }
-
-    function getLanguage(){
-      return localStorage.getItem("medlync_lang") || "en";
-    }
-    function getTheme(){
-      return localStorage.getItem("medlync_theme") || "light";
-    }
-
-    $("langToggle").addEventListener("click", () => {
-      const next = (getLanguage() === "en") ? "es" : "en";
-      setLanguage(next);
-      // Refresh theme label in the active language
-      setTheme(getTheme());
-    });
-    $("themeToggle").addEventListener("click", () => {
-      const next = (getTheme() === "light") ? "dark" : "light";
-      setTheme(next);
-    });
-
-    // Animated counters (simple)
-    function animateCounters(){
-      const els = document.querySelectorAll(".count");
-      els.forEach(el => {
-        const target = Number(el.getAttribute("data-count") || "0");
-        const isDecimal = String(target).includes(".");
-        const duration = 900;
-        const start = performance.now();
-        function tick(now){
-          const p = Math.min(1, (now - start) / duration);
-          const val = target * (0.15 + 0.85 * p);
-          el.textContent = isDecimal ? val.toFixed(1) : Math.round(val);
-          if(p < 1) requestAnimationFrame(tick);
-          else el.textContent = isDecimal ? target.toFixed(1) : target;
+        // Allow safe inline HTML for copyright year placeholder
+        if (key === "copyright") {
+          el.innerHTML = dict[key];
+          // Ensure year is filled
+          const y = el.querySelector("#year");
+          if (y) y.textContent = new Date().getFullYear();
+          return;
         }
-        requestAnimationFrame(tick);
+
+        el.textContent = dict[key];
       });
+
+      // Update aria-pressed styles for language buttons
+      const enBtn = document.getElementById("langEn");
+      const esBtn = document.getElementById("langEs");
+      enBtn.setAttribute("aria-pressed", String(lang === "en"));
+      esBtn.setAttribute("aria-pressed", String(lang === "es"));
     }
 
-    // Init
-    $("year").textContent = new Date().getFullYear();
+    document.getElementById("langEn").addEventListener("click", () => applyI18n("en"));
+    document.getElementById("langEs").addEventListener("click", () => applyI18n("es"));
 
-    // Accessibility: allow toggles with keyboard
-    ["langToggle","themeToggle"].forEach(id => {
-      const b = $(id);
-      b.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" || e.key === " "){
-          e.preventDefault();
-          b.click();
-        }
-      });
-    });
-
-    // First render
-    setLanguage(getLanguage());
-    setTheme(getTheme());
-    animateCounters();
+    // Initial
+    applyI18n("en");
+    setTab("provider");
   </script>
 </body>
 </html>
+
 ```
-
-
