@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
   <title>MedLync — Provider–Practitioner Collaboration</title>
   <meta name="description" content="MedLync connects healthcare providers and practitioners to collaborate, staff care safely, and elevate patient outcomes." />
   
@@ -116,7 +116,7 @@
     }
     .logo {
       width: 36px; height: 36px;
-      background-image: url('medlync-logo.jpg');
+      background-image: url('images/medlync-logo.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 8px;
@@ -487,19 +487,88 @@
     }
 
     /* ---------- Responsive ---------- */
-    @media (max-width: 900px){
-      .topbar-inner { padding: 10px 16px; }
-      .nav { display: none; }
-      .hero-video h1 { font-size: 36px; }
-      .split { grid-template-columns: 1fr; }
-      .cta { padding: 30px; text-align: center; justify-content: center; }
-      .cta .left, .cta .right { width: 100%; justify-content: center; }
-      .foot-grid { grid-template-columns: 1fr; }
-      
-      .how::before { left: 29px; } /* Adjust line for smaller num box if needed */
-      .step { grid-template-columns: 60px 1fr; gap: 16px; padding: 16px; }
-      .num { width: 60px; height: 60px; font-size: 20px; }
-    }
+    /* =========================================
+   RESPONSIVE & MOBILE OPTIMIZATIONS
+   ========================================= */
+
+/* Tablet / Small Laptop (PB) */
+@media (max-width: 1024px) {
+  .container { padding: 0 20px; }
+  .hero-video { height: 100vh; min-height: auto; }
+  .hero-video h1 { font-size: 48px; }
+}
+
+/* Mobile Landscape / Tablet Portrait */
+@media (max-width: 900px){
+  .topbar-inner { 
+    padding: 10px 16px; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    border-radius: 20px;
+  }
+  
+  .brand { width: auto; }
+  
+  /* Make Nav scrollable horizontally on mobile instead of breaking layout */
+  .nav { 
+    display: flex; 
+    order: 3; 
+    width: 100%; 
+    overflow-x: auto; 
+    padding-top: 10px;
+    padding-bottom: 5px;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+  .nav::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
+  
+  .actions { margin-left: auto; }
+
+  .hero-video h1 { font-size: 36px; }
+  .split { grid-template-columns: 1fr; }
+  
+  /* Stack CTA buttons vertically on mobile */
+  .cta { padding: 30px; text-align: center; justify-content: center; flex-direction: column; }
+  .cta .left, .cta .right { width: 100%; justify-content: center; }
+  .cta .right { display: flex; flex-direction: column; gap: 12px; }
+  .cta .btn { width: 100%; justify-content: center; }
+
+  .foot-grid { grid-template-columns: 1fr; }
+  
+  .how::before { left: 29px; } 
+  .step { grid-template-columns: 60px 1fr; gap: 16px; padding: 16px; }
+  .num { width: 60px; height: 60px; font-size: 20px; }
+}
+
+/* Phone (Portrait) */
+@media (max-width: 600px) {
+  .topbar { margin: 0 8px; }
+  
+  /* Hide sub-text on tiny screens to keep the header clean */
+  .brand h1 { font-size: 18px; } 
+  .brand small { display: none; }
+  
+  .hero-video {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    align-items: flex-end; 
+    padding-bottom: 40px;
+  }
+  
+  section { padding: 50px 0; }
+  
+  .grid-3 { grid-template-columns: 1fr; } /* Force single column on phone */
+  
+  .panel { padding: 20px; border-radius: 16px; }
+  
+  /* Step-by-step mobile layout */
+  .step { display: flex; flex-direction: column; text-align: center; gap: 12px; }
+  .how::before { display: none; } 
+  .num { margin: 0 auto; }
+  
+  .bullets li { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
   </style>
 </head>
 
@@ -538,7 +607,7 @@
 
   <header class="hero-video">
     <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
-      <source src="medlync-hero.mp4" type="video/mp4" />
+      <source src="videos/medlync-hero.mp4" type="video/mp4" />
     </video>
 
     <div class="hero-video-overlay"></div>
