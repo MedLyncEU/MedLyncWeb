@@ -13,7 +13,7 @@
 
   <style>
     :root{
-      /* Refined Palette - More depth, less flat    */
+      /* Refined Palette - More depth, less flat */
       --bg0: #f8fafc;
       --bg-gradient: linear-gradient(180deg, #f8fafc 0%, #eef6ff 100%);
       
@@ -116,7 +116,7 @@
     }
     .logo {
       width: 36px; height: 36px;
-      background-image: url('images/medlync-logo.jpg');
+      background-image: url('medlync-logo.jpg');
       background-size: cover;
       background-position: center;
       border-radius: 8px;
@@ -211,13 +211,17 @@
       overflow: hidden;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
+      /*text-align: center; /* Centra todo el contenido */
+      /*max-width: 2000x;   /* Evita que el subtexto se estire demasiado y sea difícil de leer */
+      /*margin: 0 auto;     /* Centra el contenedor en la página */
+
     }
 
     .hero-video-bg{
       position: absolute;
       inset: 0;
       width: 100%;
-      height: 100%;
+      height: 125%;
       object-fit: cover;
     }
 
@@ -236,16 +240,39 @@
     .hero-video-content{
       position: relative;
       z-index: 2;
-      max-width: 720px;
+      max-width: 1000px;
       color: white;
-      padding-top: 60px;
+      padding-top: 80px;
+      text-align: center; /* Centra todo el contenido */
+      /*max-width: 900px;   /* Evita que el subtexto se estire demasiado y sea difícil de leer */
+      margin: 0 auto;     /* Centra el contenedor en la página */
+
     }
 
+    .hero-video-content h1 {
+      line-height: 1.2;   /* Ajusta el espacio entre las dos filas del título */
+      margin-bottom: 20px;
+  }
+
+    .hero-video-content p {
+      
+      font-size: 1.50rem;
+      max-width: 1000px; /* Keeps the subtext elegant and readable */
+      margin: 0 auto;
+    }
+
+    /* Opcional: En móviles, deja que el texto fluya naturalmente */
+    @media (max-width: 768px) {
+        .hero-video-content h1 br {
+      display: none;
+        }
+
+      }
     .hero-video h1{
       font-size: clamp(42px, 5vw, 68px);
       font-weight: 800;
       letter-spacing: -0.02em;
-      line-height: 1.1;
+      line-height: 1.2;
       margin-bottom: 24px;
       text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     }
@@ -492,7 +519,7 @@
    ========================================= */
 
 /* Tablet / Small Laptop (PB) */
-@media (max-width: 1024px) {
+@media (max-width: 2824px) {
   .container { padding: 0 20px; }
   .hero-video { height: 100vh; min-height: auto; }
   .hero-video h1 { font-size: 48px; }
@@ -542,7 +569,7 @@
 }
 
 /* Phone (Portrait) */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .topbar { margin: 0 8px; }
   
   /* Hide sub-text on tiny screens to keep the header clean */
@@ -555,7 +582,9 @@
     align-items: flex-end; 
     padding-bottom: 40px;
   }
-  
+  .hero-video-content h1 br {
+    display: none;
+  }
   section { padding: 50px 0; }
   
   .grid-3 { grid-template-columns: 1fr; } /* Force single column on phone */
@@ -607,18 +636,19 @@
 
   <header class="hero-video">
     <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
-      <source src="videos/medlync-hero.mp4" type="video/mp4" />
+      <source src="medlync-hero.mp4" type="video/mp4" />
     </video>
 
     <div class="hero-video-overlay"></div>
 
-    <div class="container hero-video-content reveal">
-      <h1 data-i18n="heroTitle">Powering Connected Healthcare</h1>
-      <p data-i18n="heroSub">
-        MedLync uses AI to connect providers and practitioners,
-        enabling smarter collaboration across the healthcare system.
-      </p>
-      </div>
+    <div class="container hero-video-content reveal text-center">
+  <h1 data-i18n="heroTitle">
+    Transforming Healthcare Logistics <br>into a Competitive Advantage</h1>
+  </h1>
+  <p data-i18n="heroSub">
+    MedLync’s AI-driven synchronization automates the provider-practitioner connection to slash administrative costs, optimize resource allocation, and accelerate patient access to care.
+  </p>
+</div>
   </header>
 
   <section id="vision">
@@ -967,8 +997,8 @@
         langLabel: "LANG",
         topCta: "Request early access",
         
-        heroTitle: "Powering Connected Healthcare",
-        heroSub: "MedLync uses AI to connect providers and practitioners, enabling smarter collaboration across the healthcare system.",
+        heroTitle: "Transforming Healthcare Logistics into a Competitive Advantage",
+        heroSub: "MedLync’s AI-driven synchronization automates the provider-practitioner connection to slash administrative costs, optimize resource allocation, and accelerate patient access to care.",
 
         visionTitle: "MedLync is a healthcare improvement platform designed to strengthen the healthcare system.",
         visionSub:"We enable coordinated collaboration between providers and practitioners to support real clinical and operational needs, improving quality of care, continuity, and the patient experience.",
@@ -1063,8 +1093,8 @@
         langLabel: "IDIOMA",
         topCta: "Solicitar acceso",
 
-        heroTitle: "Impulsando la Sanidad Conectada",
-        heroSub: "MedLync usa IA para conectar proveedores y profesionales, permitiendo una colaboración más inteligente en todo el sistema sanitario.",
+        heroTitle: "Transformando la logística sanitaria en una ventaja competitiva",
+        heroSub: "La sincronización por IA de MedLync automatiza la conexión entre centros y profesionales para reducir costes operativos, optimizar recursos y acelerar el acceso del paciente a la salud.",
 
         visionTitle: "MedLync es una plataforma diseñada para fortalecer el sistema sanitario.",
         visionSub: "Facilitamos la colaboración entre proveedores y profesionales para responder a necesidades clínicas reales, mejorando la calidad asistencial, la continuidad y la experiencia del paciente.",
